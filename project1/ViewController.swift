@@ -15,7 +15,10 @@ class ViewController: UITableViewController {
         // Do any additional setup after loading the view.
         title = "Storm Viewer"
         navigationController?.navigationBar.prefersLargeTitles = true
-        
+        performSelector(inBackground: #selector(fetchPics), with: nil)
+    }
+    
+    @objc func fetchPics(){
         let fm = FileManager.default
         let path = Bundle.main.resourcePath!
         let items = try! fm.contentsOfDirectory(atPath: path)
