@@ -9,7 +9,8 @@ import UIKit
 
 class ViewController: UITableViewController {
     var pictures = [String]()
-
+    let defaults = UserDefaults.standard
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -45,12 +46,20 @@ class ViewController: UITableViewController {
         if let vc = storyboard?.instantiateViewController(withIdentifier: "Detail") as? DetailViewController {
             vc.selectedImage = pictures[indexPath.row]
             navigationController?.pushViewController(vc, animated: true)
-            
             vc.totalNumOfPictures = pictures.count
             vc.pictureOrder = indexPath.row
+            if let fileName = vc.selectedImage{
+                if defaults.object(forKey: fileName) != nil {
+                    let count = defaults.integer(forKey: fileName) + 1
+                    defaults.set(count, forKey: fileName)
+                }else {
+                    defaults.set(1, forKey: fileName)
+                }
+                print(defaults.integer(forKey: fileName))
+            }
         }
     }
-
-
+    
+    
 }
 
